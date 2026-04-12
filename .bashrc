@@ -68,7 +68,7 @@ alias df='df -h'
 alias du='du -h'
 alias free='free -h'
 alias less='less -R'
-alias path='echo -e "${PATH//:/\\n}"'   # print PATH entries one per line
+alias ppath='echo -e "${PATH//:/\\n}"'   # print PATH entries one per line
 
 # ─── Docker  (d / dc) ─────────────────────────────────────────────────────────
 alias d='docker'
