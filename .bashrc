@@ -74,86 +74,24 @@ alias path='echo -e "${PATH//:/\\n}"'   # print PATH entries one per line
 alias d='docker'
 alias dc='docker-compose'
 
-# common docker shortcuts
-alias dps='docker ps'
-alias dpsa='docker ps -a'
-alias di='docker images'
-alias drm='docker rm'
-alias drmi='docker rmi'
-alias dex='docker exec -it'
-alias dlog='docker logs -f'
-alias dstop='docker stop'
-alias dprune='docker system prune -f'
 
-# common docker-compose shortcuts
-alias dcu='docker-compose up'
-alias dcud='docker-compose up -d'
-alias dcd='docker-compose down'
-alias dcb='docker-compose build'
-alias dcl='docker-compose logs -f'
-alias dcr='docker-compose restart'
+# ─── Git  (g + --global aliases) ───────────────────────────────────────────────────
+# 'g' is git; 'g <alias>' 
+alias g='git'
 
-# ─── Git  (g + sub-aliases) ───────────────────────────────────────────────────
-# 'g' on its own runs git; 'g <alias>' expands to the full git command so that
-# tab-completion and git's own alias machinery both keep working.
-g() {
-    # map short aliases to git sub-commands / flags
-    case "$1" in
-        # ── status & info ──────────────────────────────────────
-        s)   shift; git status "$@" ;;
-        ss)  shift; git status -s "$@" ;;
-        lg)  shift; git log --oneline --graph --decorate "$@" ;;
-        lga) shift; git log --oneline --graph --decorate --all "$@" ;;
-        lgf) shift; git log --stat "$@" ;;
-        # ── branching & checkout ──────────────────────────────
-        co)  shift; git checkout "$@" ;;
-        cob) shift; git checkout -b "$@" ;;
-        br)  shift; git branch "$@" ;;
-        bra) shift; git branch -a "$@" ;;
-        brd) shift; git branch -d "$@" ;;
-        brD) shift; git branch -D "$@" ;;
-        sw)  shift; git switch "$@" ;;
-        swc) shift; git switch -c "$@" ;;
-        # ── remotes ───────────────────────────────────────────
-        f)   shift; git fetch "$@" ;;
-        fa)  shift; git fetch --all --prune "$@" ;;
-        p)   shift; git pull "$@" ;;
-        pr)  shift; git pull --rebase "$@" ;;
-        pu)  shift; git push "$@" ;;
-        puf) shift; git push --force-with-lease "$@" ;;
-        puu) shift; git push -u origin HEAD "$@" ;;
-        # ── staging & committing ──────────────────────────────
-        a)   shift; git add "$@" ;;
-        aa)  shift; git add -A "$@" ;;
-        ap)  shift; git add -p "$@" ;;
-        c)   shift; git commit "$@" ;;
-        cm)  shift; git commit -m "$@" ;;
-        ca)  shift; git commit --amend "$@" ;;
-        can) shift; git commit --amend --no-edit "$@" ;;
-        # ── diff & stash ──────────────────────────────────────
-        d)   shift; git diff "$@" ;;
-        ds)  shift; git diff --staged "$@" ;;
-        st)  shift; git stash "$@" ;;
-        stp) shift; git stash pop "$@" ;;
-        stl) shift; git stash list "$@" ;;
-        # ── rebase & merge ────────────────────────────────────
-        rb)  shift; git rebase "$@" ;;
-        rbi) shift; git rebase -i "$@" ;;
-        rbc) shift; git rebase --continue "$@" ;;
-        rba) shift; git rebase --abort "$@" ;;
-        mg)  shift; git merge "$@" ;;
-        # ── reset & clean ─────────────────────────────────────
-        rs)  shift; git reset "$@" ;;
-        rsh) shift; git reset --hard "$@" ;;
-        gcl) shift; git clean -fd "$@" ;;
-        # ── tags ──────────────────────────────────────────────
-        t)   shift; git tag "$@" ;;
-        # ── remote ────────────────────────────────────────────
-        rv)  shift; git remote -v "$@" ;;
-        # ── catch-all: pass straight through to git ───────────
-        *)   git "$@" ;;
-    esac
-}
+# git --global aliases
+git config --global alias.c commit
+git config --global alias.s status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.a add
+git config --global alias.d diff
+git config --global alias.l "log --oneline --graph"
+git config --global alias.p push
+git config --global alias.f fetch
+git config --global alias.m merge
+git config --global alias.r reset
+
 
 # make bash complete 'g' the same way it completes 'git'
 if command -v __git_complete &>/dev/null; then
