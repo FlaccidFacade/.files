@@ -73,25 +73,14 @@ alias ppath='echo -e "${PATH//:/\\n}"'   # print PATH entries one per line
 # ─── Docker  (d / dc) ─────────────────────────────────────────────────────────
 alias d='docker'
 alias dc='docker-compose'
+alias v='vim'
+alias py='python3'
+alias py3='python3'
 
 
 # ─── Git  (g + --global aliases) ───────────────────────────────────────────────────
 # 'g' is git; 'g <alias>' 
 alias g='git'
-
-# git --global aliases
-git config --global alias.c commit
-git config --global alias.s status
-git config --global alias.co checkout
-git config --global alias.br branch
-git config --global alias.a add
-git config --global alias.d diff
-git config --global alias.l "log --oneline --graph"
-git config --global alias.p push
-git config --global alias.f fetch
-git config --global alias.m merge
-git config --global alias.r reset
-
 
 # make bash complete 'g' the same way it completes 'git'
 if command -v __git_complete &>/dev/null; then

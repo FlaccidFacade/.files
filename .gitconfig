@@ -1,0 +1,18 @@
+[user]
+    name = FlaccidFacade
+    email = google.scientist979@simplelogin.com
+
+[alias]
+    c = commit
+    s = status
+    co = checkout
+    br = branch
+    a = add
+    d = diff
+    l = log --oneline --graph
+    p = push
+    f = fetch
+    m = merge
+    r = reset
+    # This is the new line to make 'git stash' default to 'push'
+    stash = "!git stash push"
