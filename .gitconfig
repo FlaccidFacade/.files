@@ -10,7 +10,8 @@
     a = add
     d = diff
     l = log --oneline --graph
-    p = push
+    ps = push
+    pl = pull
     f = fetch
     m = merge
     r = reset
