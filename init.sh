@@ -114,4 +114,16 @@ if [[ "$INSTALL_TOOLS" == true ]]; then
 	install_tools
 fi
 
+# Auto-run any executable scripts in scripts/
+SCRIPTS_DIR="$REPO_DIR/scripts"
+if [[ -d "$SCRIPTS_DIR" ]]; then
+	for script in "$SCRIPTS_DIR"/*.sh; do
+		[[ -f "$script" && -x "$script" ]] || continue
+		echo "Running: $(basename "$script")"
+		"$script" || echo "Warning: $script exited with code $?"
+	done
+else
+	echo "No scripts/ directory found, skipping."
+fi
+
 echo "Done. Start a new shell or run: source ~/.bashrc"
