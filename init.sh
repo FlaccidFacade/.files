@@ -10,7 +10,7 @@ usage() {
 	cat <<'EOF'
 Usage: ./init.sh [--install-tools] [--force] [--help]
 
-Applies dotfiles from this repo by backing up and symlinking:
+Applies dotfiles from this repo by appending them to the following files in the user's home directory:
 	- .bashrc
 	- .gitconfig
 
@@ -44,40 +44,29 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-backup_if_needed() {
+backup() {
 	local target="$1"
 	if [[ -e "$target" && ! -L "$target" ]]; then
-		mv "$target" "${target}.backup.${TIMESTAMP}"
+		cp "$target" "${target}.backup.${TIMESTAMP}"
 		echo "Backed up $target -> ${target}.backup.${TIMESTAMP}"
 	fi
 }
 
-link_file() {
+remove_link() {
+	local target="$1"
+	if [[ -L "$target" ]]; then
+		rm "$target"
+		echo "Removed symlink: $target"
+	fi
+}
+
+append_file() {
 	local source_file="$1"
 	local target_file="$2"
-
-	if [[ -L "$target_file" ]]; then
-		local linked_to
-		linked_to="$(readlink "$target_file")"
-		if [[ "$linked_to" == "$source_file" ]]; then
-			echo "Already linked: $target_file"
-			return
-		fi
-	fi
-
-	if [[ -e "$target_file" || -L "$target_file" ]]; then
-		if [[ "$FORCE" == true ]]; then
-			rm -rf "$target_file"
-		else
-			backup_if_needed "$target_file"
-			if [[ -e "$target_file" || -L "$target_file" ]]; then
-				rm -rf "$target_file"
-			fi
-		fi
-	fi
-
-	ln -s "$source_file" "$target_file"
-	echo "Linked $target_file -> $source_file"
+	backup "$target_file"
+	remove_link "$target_file"
+    cat "$source_file" >> "$target_file"
+	echo "Appended $target_file with $source_file"
 }
 
 install_tools() {
@@ -106,9 +95,8 @@ install_tools() {
 }
 
 echo "Applying dotfiles from: $REPO_DIR"
-
-link_file "$REPO_DIR/.bashrc" "$HOME/.bashrc"
-link_file "$REPO_DIR/.gitconfig" "$HOME/.gitconfig"
+append_file "$REPO_DIR/_.bashrc" "$HOME/.bashrc"
+append_file "$REPO_DIR/_.gitconfig" "$HOME/.gitconfig"
 
 if [[ "$INSTALL_TOOLS" == true ]]; then
 	install_tools
