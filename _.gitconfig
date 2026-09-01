@@ -3,7 +3,7 @@
     email = google.scientist979@simplelogin.com
 
 [alias]
-    c = commit
+    c = "!f() { if [ \"$1\" = \"pop\" ]; then shift; git reset HEAD~1 \"$@\"; else git commit \"$@\"; fi; }; f"
     s = status
     co = checkout
     br = branch
